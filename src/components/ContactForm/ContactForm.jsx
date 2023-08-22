@@ -1,52 +1,59 @@
-import { useState } from 'react';
 import { nanoid } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectContacts } from 'redux/selectors';
-import { addContacts } from '../../redux/operations';
 import css from './ContactForm.module.css';
+import React, { useState } from 'react';
+import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
 
 const nameInputId = nanoid();
 const numberInputId = nanoid();
 
 const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const contacts = useSelector(selectContacts);
-  const dispatch = useDispatch();
+  const handleChangeName = evt => {
+    setName(evt.target.value);
+  };
 
-  const handleSubmit = event => {
-    event.preventDefault();
+  const handleChangeNumber = evt => {
+    setNumber(evt.target.value);
+  };
 
-    const isInContacts = contacts.some(
-      contact => contact.name.toLowerCase().trim() === name.toLowerCase().trim()
-    );
+  const handleSubmit = evt => {
+    evt.preventDefault();
 
-    if (isInContacts) {
-      alert(`${name} is already in contacts`);
+    if (name.trim() === '' || number.trim() === '') {
       return;
     }
 
-    dispatch(addContacts({ name, number }));
+    const existingContact = contacts.find(
+      contact =>
+        contact.name.toLowerCase() === name.toLowerCase() ||
+        contact.number === number
+    );
+
+    if (existingContact) {
+      alert(`This ${name} is all ready exists!`);
+    } else {
+      const newContact = {
+        name: name,
+        number: number,
+      };
+
+      dispatch(addContact(newContact));
+    }
+
+    reset();
+  };
+
+  const reset = () => {
     setName('');
     setNumber('');
   };
-
-  const handleChange = event => {
-    const { name, value } = event.target;
-
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'number':
-        setNumber(value);
-        break;
-      default:
-        return;
-    }
-  };
-
   const isFormIncomplete = name.trim() === '' || number.trim() === '';
 
   return (
@@ -60,7 +67,7 @@ const ContactForm = () => {
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
         value={name}
-        onChange={handleChange}
+        onChange={handleChangeName}
         placeholder="Name"
       />
       <label htmlFor={numberInputId}>Telephone</label>
@@ -72,7 +79,7 @@ const ContactForm = () => {
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         required
         value={number}
-        onChange={handleChange}
+        onChange={handleChangeNumber}
         placeholder="Telephone"
       />
       <button className={css.btnadd} type="submit" disabled={isFormIncomplete}>

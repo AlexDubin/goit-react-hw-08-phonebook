@@ -11,6 +11,7 @@ const HeroSection = ({ herotitle, children }) => {
   );
 };
 
+
 HeroSection.propTypes = {
   herotitle: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,

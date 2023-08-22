@@ -10,3 +10,67 @@
   color: white;
   font-size: 18px;
 }
+
+.header {
+  padding: 20px 30px;
+}
+
+.menu_list {
+  display: flex;
+  /* gap: 30px; */
+  align-items: center;
+  /* justify-content: center; */
+  list-style: none;
+  padding-left: 0;
+}
+
+.menu_item {
+  position: relative;
+  padding-bottom: 5px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+  color: #ffffff;
+  text-transform: capitalize;
+  text-decoration: none;
+  
+}
+
+.menu_item_contacts {
+  margin-left: 24px;
+  position: relative;
+  padding-bottom: 5px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+  color: #ffffff;
+  text-transform: capitalize;
+  text-decoration: none;
+  
+}
+
+.menu_item_login {
+  display: flex;
+  margin-left: auto;
+  gap: 16px;
+}
+
+.menu_item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #ffffff;
+  transition: 0.3s all ease;
+}
+
+.menu_item.active::after {
+  width: 100%;
+}
+
+.menu_item:hover::after,
+.menu_item:focus::after {
+    width: 100%;
+}

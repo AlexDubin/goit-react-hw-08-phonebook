@@ -1,16 +1,15 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { selectFilter } from 'redux/selectors';
-import { changeFilter } from 'redux/filterSlice';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { filterContacts } from 'redux/filterSlice';
 
 export const Filter = () => {
-  const value = useSelector(selectFilter);
   const dispatch = useDispatch();
 
-  const onChange = event => {
-    const normalizedValue = event.target.value.toLowerCase();
-
-    dispatch(changeFilter(normalizedValue));
+  const filterName = event => {
+    const value = event.target.value.toLowerCase();
+    dispatch(filterContacts(value));
   };
+
   return (
     <div>
       <label htmlFor="findInput">Find contacts by name or number</label>
@@ -18,9 +17,8 @@ export const Filter = () => {
         type="text"
         id="findInput"
         placeholder="Search contacts"
-        value={value}
         name="filter"
-        onChange={onChange}
+        onChange={filterName}
         required
       />
     </div>

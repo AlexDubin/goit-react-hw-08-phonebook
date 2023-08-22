@@ -2,23 +2,27 @@ import React from 'react';
 import { FaPhone } from 'react-icons/fa';
 import css from './ContactsList.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectVisibleContacts } from 'redux/selectors';
-import { deleteContacts } from '../../redux/operations';
+import { deleteContact } from 'redux/operations';
+import { selectFilteredContacts } from 'redux/selectors';
 
 const ContactsList = () => {
-  const contacts = useSelector(selectVisibleContacts);
   const dispatch = useDispatch();
+  const contacts = useSelector(selectFilteredContacts);
+
+  const handleDeleteContact = contactId => {
+    dispatch(deleteContact(contactId));
+  };
 
   return (
     <ul>
       {contacts.map(contact => (
         <li key={contact.id} className={css.item}>
           <p>
-            <FaPhone /> - {contact.name}: {contact.phone}
+            <FaPhone /> - {contact.name}: {contact.number}
           </p>
           <button
             className={css.btnx}
-            onClick={() => dispatch(deleteContacts(contact.id))}
+            onClick={() => dispatch(handleDeleteContact(contact.id))}
           >
             X
           </button>
