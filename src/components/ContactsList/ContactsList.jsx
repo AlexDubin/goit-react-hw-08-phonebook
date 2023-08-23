@@ -22,7 +22,7 @@ const ContactsList = () => {
           </p>
           <button
             className={css.btnx}
-            onClick={() => dispatch(handleDeleteContact(contact.id))}
+            onClick={() => handleDeleteContact(contact.id)}
           >
             X
           </button>
